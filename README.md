@@ -37,3 +37,8 @@
    ~~~
    npm run start
    ~~~
+
+## Builds do react se encontram em:
+ ~~~
+   https://hub.docker.com/r/pnunes276/zabbixstore-frontend
+ ~~~
