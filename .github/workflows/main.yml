@@ -30,7 +30,19 @@ jobs:
         tags: |
             pnunes276/zabbixstore-frontend:latest
             pnunes276/zabbixstore-frontend:v${{ github.run_number }}
-        
-        
+
+    - name: ECR Login
+      uses: aws-actions/amazon-ecr-login@v2
+      with:
+        region: ${{ secrets.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Build da imagem Docker
+      run: |
+        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/pedritoreact:latest ./frontend
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/pedritoreact:latest
   
+        
+        
   
