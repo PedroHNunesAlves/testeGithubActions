@@ -15,27 +15,16 @@ jobs:
     - name: Checkout do código
       uses: actions/checkout@v2
 
-    - name: Autenticando no Docker Hub
-      uses: docker/login-action@v3.1.0
+    - name: AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
       with:
-        username: ${{secrets.DOCKER_USERNAME}}
-        password: ${{secrets.DOCKER_PASSWORD}}
+        aws-region: us-east-1
 
-    - name: Push da imagem no docker Hub
-      uses: docker/build-push-action@v5.3.0
-      with:
-        context: ./frontend
-        file: ./frontend/Dockerfile.yml
-        push: true
-        tags: |
-            pnunes276/zabbixstore-frontend:latest
-            pnunes276/zabbixstore-frontend:v${{ github.run_number }}
 
     - name: ECR Login
       uses: aws-actions/amazon-ecr-login@v2
-      with:
-        region: us-east-1
-
+        
+  
     - name: Build da imagem Docker
       run: |
         docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/pedritoreact:latest ./frontend
