@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    # paths:
-    # - 'frontend/**'
 
 jobs:
   CI:
@@ -30,10 +28,9 @@ jobs:
   
     - name: Build da imagem Docker
       env:
-        ECR_REGISTRY: ${{steps.login-pf-aws-ecr.outputs.registry}}
-        ECR_REPOSITORY: ${{ ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${AWS_REGION}.amazonaws.com/pedritoreact }}
+        ECR_REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry}}
+        ECR_REPOSITORY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/pedritoreact
         IMAGE_TAG: latest
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./frontend
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
